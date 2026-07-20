@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block title %}User Profile - SkillForge{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <!-- Profile Page Header -->
+    <div class="mb-5">
+        <h1 class="fw-bold text-light mb-1">My Profile</h1>
+        <p class="text-secondary mb-0">Manage your credentials, edit user information, and view academic milestones.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Edit Profile Form Card -->
+        <div class="col-lg-5">
+            <div class="glass-card p-4 p-md-5 h-100">
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle text-white fw-bold mb-3 shadow-lg"
+                         style="width: 80px; height: 80px; font-size: 2.25rem; background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-blue) 100%) !important;">
+                        {{ user.name[0].upper() if user.name else 'S' }}
+                    </div>
+                    <h3 class="text-light fw-bold mb-1">{{ user.name }}</h3>
+                    <p class="text-secondary small mb-1">{{ user.email }}</p>
+                </div>
+
+                <hr class="border-secondary opacity-25 mb-4">
+
+                <h5 class="text-light fw-bold mb-3">Update Profile Info</h5>
+                <form action="{{ url_for('profile') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="profile-name" class="form-label">Full Name</label>
+                        <input type="text" name="name" id="profile-name" class="form-control form-glass" value="{{ user.name }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="profile-email" class="form-label">Email Address</label>
+                        <input type="email" id="profile-email" class="form-control form-glass" value="{{ user.email }}" disabled>
+                    </div>
+                    <div class="mb-4">
+                        <label for="profile-bio" class="form-label">Biography</label>
+                        <textarea name="bio" id="profile-bio" class="form-control form-glass" rows="4" placeholder="Tell us about yourself...">{{ user.bio or '' }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary-gradient w-100 py-2.5">
+                        <i class="bi bi-check2-square"></i> Save Changes
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Academic Stats & Enrolled Courses (NO ENROLL BUTTONS - DISPLAY PERCENTAGES ONLY) -->
+        <div class="col-lg-7">
+            <div class="d-flex flex-column gap-4 h-100">
+                <!-- Academic Stats summary -->
+                <div class="glass-card p-4">
+                    <h5 class="text-light fw-bold mb-3"><i class="bi bi-bar-chart-fill text-primary me-2"></i>Learning Statistics</h5>
+                    <div class="row text-center gy-3">
+                        <div class="col-4">
+                            <h4 class="fw-bold text-light mb-0">{{ enrollments|length }}</h4>
+                            <span class="text-secondary small">Total Enrolled</span>
+                        </div>
+                        <div class="col-4 border-start border-secondary">
+                            <h4 class="fw-bold text-light mb-0">{{ completed_count }}</h4>
+                            <span class="text-secondary small">Completed</span>
+                        </div>
+                        <div class="col-4 border-start border-secondary">
+                            <h4 class="fw-bold text-light mb-0">{{ avg_progress }}%</h4>
+                            <span class="text-secondary small">Average Progress</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Completion List (Shows progress bar and percentage; hides enrollment button) -->
+                <div class="glass-card p-4 flex-grow-1">
+                    <h5 class="text-light fw-bold mb-4"><i class="bi bi-award-fill text-primary me-2"></i>My Enrolled Curriculum</h5>
+
+                    {% if enrollments %}
+                        <div class="d-flex flex-column gap-3">
+                            {% for enroll in enrollments %}
+                                <div class="p-3 border border-secondary-subtle rounded-3 bg-dark-subtle" style="background-color: rgba(255,255,255,0.01) !important; border-color: rgba(255,255,255,0.07) !important;">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <h6 class="text-light fw-bold mb-0">{{ enroll.name }}</h6>
+                                            <span class="text-secondary small" style="font-size: 0.75rem;">{{ enroll.category }}</span>
+                                        </div>
+                                        <div class="text-end">
+                                            {% if enroll.progress == 100 %}
+                                                <span class="badge bg-success text-white badge-custom">100% Completed</span>
+                                            {% else %}
+                                                <span class="text-secondary small fw-semibold">{{ enroll.progress }}% Completed</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar-custom {% if enroll.progress == 100 %}bg-success{% endif %}" style="width: {{ enroll.progress }}%; {% if enroll.progress == 100 %}background: var(--accent-green) !important;{% endif %}"></div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="bi bi-journals fs-2 text-secondary mb-2 d-block"></i>
+                            <p class="text-secondary small mb-0">No course enrollments detected.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

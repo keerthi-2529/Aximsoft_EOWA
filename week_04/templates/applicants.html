@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}Applicants - {{ job.job_title }}{% endblock %}
+{% block content %}
+<section class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <h4 class="fw-bold mb-1">Applicants for {{ job.job_title }}</h4>
+            <p class="text-muted small mb-0">{{ job.company_name }} &middot; {{ job.location }}</p>
+        </div>
+        <a href="{{ url_for('employer_dashboard') }}" class="btn btn-outline-secondary"><i class="bi bi-arrow-left"></i> Back to Dashboard</a>
+    </div>
+
+    <div class="card border-0 shadow-sm p-4">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Candidate</th>
+                        <th>Contact</th>
+                        <th>Skills</th>
+                        <th>Resume</th>
+                        <th>Applied On</th>
+                        <th>Status</th>
+                        <th>Interview</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for a in applicants %}
+                    <tr>
+                        <td class="fw-semibold">{{ a.name }}</td>
+                        <td class="small">{{ a.email }}<br>{{ a.phone or '' }}</td>
+                        <td class="small">{{ a.candidate_skills or '-' }}</td>
+                        <td>
+                            {% if a.resume_file %}
+                            <a href="{{ url_for('static', filename='uploads/resumes/' + a.resume_file) }}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-file-earmark-text"></i> View
+                            </a>
+                            {% else %}
+                            <span class="text-muted small">No file</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ a.applied_date }}</td>
+                        <td>
+                            <form method="post" action="{{ url_for('update_status', app_id=a.id) }}" class="mb-1">
+                                <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    {% for s in status_list %}
+                                    <option value="{{ s }}" {% if s == a.status %}selected{% endif %}>{{ s }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                            <span class="badge bg-{{ STATUS_BADGE[a.status] }}">{{ a.status }}</span>
+                        </td>
+                        <td>
+                            {% if a.status == 'Interview Scheduled' and a.interview_datetime %}
+                            <p class="small mb-1"><i class="bi bi-calendar-event"></i> {{ a.interview_datetime }}</p>
+                            {% if a.interview_location %}
+                            <p class="small text-muted mb-1"><i class="bi bi-geo-alt"></i> {{ a.interview_location }}</p>
+                            {% endif %}
+                            {% endif %}
+                            <button class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#scheduleModal{{ a.id }}">
+                                <i class="bi bi-calendar-plus"></i> Schedule Interview
+                            </button>
+                        </td>
+                    </tr>
+
+                    <div class="modal fade" id="scheduleModal{{ a.id }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <form method="post" action="{{ url_for('schedule_interview', app_id=a.id) }}">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Schedule Interview - {{ a.name }}</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Interview Date &amp; Time</label>
+                                            <input type="datetime-local" name="interview_datetime" class="form-control"
+                                                   value="{{ a.interview_datetime }}" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Location / Meeting Link</label>
+                                            <input type="text" name="interview_location" class="form-control"
+                                                   placeholder="e.g. Office address or Zoom link"
+                                                   value="{{ a.interview_location or '' }}">
+                                        </div>
+                                        <p class="text-muted small mb-0">The candidate will be notified automatically
+                                            once you schedule this interview.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-primary">Schedule &amp; Notify</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <tr><td colspan="7" class="text-center text-muted py-4">No applicants yet for this job.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

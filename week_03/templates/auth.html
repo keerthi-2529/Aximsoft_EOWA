@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}SkillForge - Join or Sign In{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-5">
+    <div class="col-md-8 col-lg-5 animate-fade-in">
+
+        <!-- Toggle Tabs -->
+        <div class="d-flex justify-content-center gap-2 mb-4">
+            <a href="#" id="toggle-login" class="btn {% if request.args.get('tab') != 'register' %}btn-primary-gradient active{% else %}btn-secondary-glass{% endif %} px-4 py-2 flex-grow-1">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Log In
+            </a>
+            <a href="#" id="toggle-register" class="btn {% if request.args.get('tab') == 'register' %}btn-primary-gradient active{% else %}btn-secondary-glass{% endif %} px-4 py-2 flex-grow-1">
+                <i class="bi bi-person-plus me-1"></i> Register
+            </a>
+        </div>
+
+        <!-- Glassmorphism Container -->
+        <div class="glass-card p-4 p-md-5">
+
+            <!-- Login Form Wrapper -->
+            <div id="login-form-wrapper" class="{% if request.args.get('tab') == 'register' %}d-none{% endif %}">
+                <h3 class="text-light fw-bold mb-2">Welcome Back</h3>
+                <p class="text-secondary small mb-4">Enter your credentials to continue forging your skills.</p>
+
+                <form action="{{ url_for('login') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="login-email" class="form-label">Email Address</label>
+                        <input type="email" name="email" id="login-email" class="form-control form-glass" placeholder="you@example.com" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <label for="login-password" class="form-label mb-0">Password</label>
+                            <a href="#" class="small text-secondary">Forgot Password?</a>
+                        </div>
+                        <input type="password" name="password" id="login-password" class="form-control form-glass" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-gradient w-100 py-2.5 mt-2">
+                        Sign In <i class="bi bi-box-arrow-in-right ms-1"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Registration Form Wrapper -->
+            <div id="register-form-wrapper" class="{% if request.args.get('tab') != 'register' %}d-none{% endif %}">
+                <h3 class="text-light fw-bold mb-2">Create Account</h3>
+                <p class="text-secondary small mb-4">Begin your learning journey on SkillForge today.</p>
+
+                <form action="{{ url_for('register') }}" method="POST" id="register-form">
+                    <div class="mb-3">
+                        <label for="reg-name" class="form-label">Full Name</label>
+                        <input type="text" name="name" id="reg-name" class="form-control form-glass" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="reg-email" class="form-label">Email Address</label>
+                        <input type="email" name="email" id="reg-email" class="form-control form-glass" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="reg-password" class="form-label">Password</label>
+                        <input type="password" name="password" id="reg-password" class="form-control form-glass" placeholder="At least 6 characters" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="reg-confirm-password" class="form-label">Confirm Password</label>
+                        <input type="password" name="confirm_password" id="reg-confirm-password" class="form-control form-glass" placeholder="Repeat your password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-gradient w-100 py-2.5">
+                        Create Free Account <i class="bi bi-person-plus ms-1"></i>
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,478 @@
+/* =====================================
+   MODERN ANALYTICS THEME
+===================================== */
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+
+body{
+
+    font-family:
+    "Inter",
+    "Segoe UI",
+    sans-serif;
+
+    background:#f1f5f9;
+
+    color:#1e293b;
+
+}
+
+
+
+/* =====================================
+   SIDEBAR
+===================================== */
+
+
+.sidebar{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:260px;
+
+    height:100vh;
+
+    padding:25px 18px;
+
+
+    background:
+    linear-gradient(
+        180deg,
+        #0f172a,
+        #134e4a
+    );
+
+
+    color:white;
+
+}
+
+
+
+.sidebar-brand{
+
+    font-size:23px;
+
+    font-weight:700;
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+
+
+.sidebar-brand i{
+
+    color:#2dd4bf;
+
+    margin-right:8px;
+
+}
+
+
+
+.sidebar a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    padding:13px 16px;
+
+    margin:8px 0;
+
+
+    border-radius:12px;
+
+
+    color:#e2e8f0;
+
+    text-decoration:none;
+
+
+    transition:0.3s;
+
+}
+
+
+
+.sidebar a:hover{
+
+    background:#14b8a6;
+
+    color:white;
+
+    transform:translateX(5px);
+
+}
+
+
+
+.sidebar a i{
+
+    color:#5eead4;
+
+    font-size:18px;
+
+}
+
+
+
+/* =====================================
+   MAIN AREA
+===================================== */
+
+
+.main-content{
+
+    margin-left:260px;
+
+    padding:30px;
+
+}
+
+
+
+/* =====================================
+   NAVBAR
+===================================== */
+
+
+.navbar{
+
+    background:white !important;
+
+    border-radius:18px;
+
+    padding:18px 25px;
+
+
+    box-shadow:
+
+    0 5px 20px
+    rgba(15,23,42,0.08);
+
+}
+
+
+
+.navbar-brand{
+
+    color:#0f172a;
+
+    font-weight:700;
+
+}
+
+
+
+
+
+/* =====================================
+   KPI CARDS
+===================================== */
+
+
+.card{
+
+    border:none;
+
+    border-radius:20px;
+
+    background:white;
+
+
+    box-shadow:
+
+    0 10px 25px
+    rgba(15,23,42,0.08);
+
+
+    transition:0.3s;
+
+}
+
+
+
+.card:hover{
+
+    transform:translateY(-7px);
+
+}
+
+
+
+.card h3{
+
+    color:#0f766e;
+
+    font-size:32px;
+
+    font-weight:800;
+
+}
+
+
+
+.card h6{
+
+    color:#64748b;
+
+    font-weight:600;
+
+}
+
+
+
+
+
+/* KPI ICONS */
+
+
+.bi-currency-rupee{
+
+    color:#16a34a;
+
+}
+
+
+.bi-cart-check{
+
+    color:#2563eb;
+
+}
+
+
+.bi-people{
+
+    color:#f59e0b;
+
+}
+
+
+.bi-shop{
+
+    color:#dc2626;
+
+}
+
+
+
+
+/* =====================================
+   CHART BOX
+===================================== */
+
+
+.plot-container{
+
+
+    background:white;
+
+
+    border-radius:20px;
+
+
+    padding:20px;
+
+
+    box-shadow:
+
+
+    0 10px 25px
+    rgba(15,23,42,0.08);
+
+
+}
+
+
+
+
+
+/* =====================================
+   TABLE
+===================================== */
+
+
+.table-responsive{
+
+
+    background:white;
+
+
+    padding:20px;
+
+
+    border-radius:20px;
+
+
+    box-shadow:
+
+    0 10px 25px
+    rgba(15,23,42,0.08);
+
+
+}
+
+
+
+.table thead{
+
+
+    background:#0f766e;
+
+    color:white;
+
+}
+
+
+
+.table tbody tr:hover{
+
+    background:#ccfbf1;
+
+}
+
+
+
+
+
+/* =====================================
+   BUTTONS
+===================================== */
+
+
+.btn-primary{
+
+
+    background:#0f766e;
+
+    border:none;
+
+}
+
+
+
+.btn-primary:hover{
+
+
+    background:#115e59;
+
+}
+
+
+
+.btn-success{
+
+
+    background:#16a34a;
+
+    border:none;
+
+}
+
+
+
+
+/* =====================================
+   INPUT
+===================================== */
+
+
+.form-control{
+
+
+    border-radius:12px;
+
+
+    border:1px solid #cbd5e1;
+
+
+}
+
+
+
+.form-control:focus{
+
+
+    border-color:#14b8a6;
+
+
+    box-shadow:
+
+    0 0 8px
+    rgba(20,184,166,0.3);
+
+
+}
+
+
+
+/* =====================================
+   SCROLLBAR
+===================================== */
+
+
+::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+
+::-webkit-scrollbar-thumb{
+
+    background:#0f766e;
+
+    border-radius:10px;
+
+}
+
+
+
+
+
+/* =====================================
+   RESPONSIVE
+===================================== */
+
+
+@media(max-width:768px){
+
+
+.sidebar{
+
+    width:80px;
+
+}
+
+
+
+.sidebar a span{
+
+    display:none;
+
+}
+
+
+
+.main-content{
+
+    margin-left:80px;
+
+}
+}

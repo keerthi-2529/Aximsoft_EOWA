@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %}Explore Tech & Design Courses - SkillForge{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <!-- Header & Search -->
+    <div class="row align-items-center gy-4 mb-5">
+        <div class="col-lg-6">
+            <h1 class="fw-bold text-light mb-2">Our Courses</h1>
+            <p class="text-secondary mb-0">Expand your horizon. Search and filter through our premium courses.</p>
+        </div>
+        <div class="col-lg-6">
+            <form action="{{ url_for('courses') }}" method="GET" class="row g-2 justify-content-lg-end">
+                <div class="col-md-7">
+                    <div class="input-group">
+                        <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-search"></i></span>
+                        <input type="text" name="search" class="form-control form-glass" placeholder="Search courses..." value="{{ request.args.get('search', '') }}">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <select name="category" class="form-select form-glass" onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat }}" {% if request.args.get('category') == cat %}selected{% endif %}>{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Active Filters Summary -->
+    {% if request.args.get('search') or request.args.get('category') %}
+        <div class="d-flex align-items-center gap-2 mb-4">
+            <span class="text-secondary small">Active filters:</span>
+            {% if request.args.get('search') %}
+                <span class="badge bg-secondary text-white py-1.5 px-3 rounded-pill small">Search: "{{ request.args.get('search') }}"</span>
+            {% endif %}
+            {% if request.args.get('category') %}
+                <span class="badge bg-secondary text-white py-1.5 px-3 rounded-pill small">Category: {{ request.args.get('category') }}</span>
+            {% endif %}
+            <a href="{{ url_for('courses') }}" class="text-decoration-underline text-danger small ms-2"><i class="bi bi-x-circle me-1"></i>Clear all</a>
+        </div>
+    {% endif %}
+
+    <!-- Courses Grid -->
+    <div class="row g-4">
+        {% if courses %}
+            {% for course in courses %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card h-100 overflow-hidden d-flex flex-column">
+                        <img src="{{ course.image_url }}" class="course-card-img" alt="{{ course.name }}">
+                        <div class="course-card-body flex-grow-1 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge badge-custom badge-{{ course.category.lower().replace(' ', '-').replace('&', 'and') }}">
+                                        {{ course.category }}
+                                    </span>
+                                    <span class="text-secondary small"><i class="bi bi-clock me-1"></i>{{ course.duration }}</span>
+                                </div>
+                                <h5 class="text-light fw-bold mb-2">{{ course.name }}</h5>
+                                <p class="text-secondary small mb-4 line-clamp-3">
+                                    {{ course.description }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <hr class="border-secondary opacity-25 my-3">
+                                {% if session.get('user_id') %}
+                                    {% if course.id in enrolled_course_ids %}
+                                        <!-- Enrolled State: Show progress & Go to Dashboard (HIDES ENROLL BUTTON) -->
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between text-secondary small mb-1">
+                                                <span>Enrolled</span>
+                                                <span class="text-primary fw-semibold">{{ enrolled_course_ids[course.id] }}% Complete</span>
+                                            </div>
+                                            <div class="progress-container">
+                                                <div class="progress-bar-custom" style="width: {{ enrolled_course_ids[course.id] }}%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary-glass py-2">
+                                                <i class="bi bi-play-circle-fill text-primary me-1"></i> Continue Learning
+                                            </a>
+                                            <button class="btn btn-link text-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-{{ course.id }}">
+                                                View Syllabus
+                                            </button>
+                                        </div>
+                                    {% else %}
+                                        <!-- Not Enrolled State -->
+                                        <div class="d-flex gap-2">
+                                            <form action="{{ url_for('enroll', course_id=course.id) }}" method="POST" class="flex-grow-1">
+                                                <button type="submit" class="btn btn-primary-gradient w-100 py-2">
+                                                    Enroll Now
+                                                </button>
+                                            </form>
+                                            <button class="btn btn-secondary-glass py-2 px-3" data-bs-toggle="modal" data-bs-target="#modal-{{ course.id }}">
+                                                <i class="bi bi-info-circle"></i>
+                                            </button>
+                                        </div>
+                                    {% endif %}
+                                {% else %}
+                                    <!-- Guest State -->
+                                    <div class="d-flex gap-2">
+                                        <a href="{{ url_for('login') }}" class="btn btn-primary-gradient flex-grow-1 py-2">
+                                            Login to Enroll
+                                        </a>
+                                        <button class="btn btn-secondary-glass py-2 px-3" data-bs-toggle="modal" data-bs-target="#modal-{{ course.id }}">
+                                            <i class="bi bi-info-circle"></i>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Detail & Syllabus Modal -->
+                <div class="modal fade" id="modal-{{ course.id }}" tabindex="-1" aria-labelledby="modalLabel-{{ course.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content bg-dark text-light border border-secondary" style="border-radius: 16px;">
+                            <div class="modal-header border-secondary-subtle p-4">
+                                <div class="d-flex flex-column align-items-start">
+                                    <span class="badge badge-custom badge-{{ course.category.lower().replace(' ', '-').replace('&', 'and') }} mb-2">
+                                        {{ course.category }}
+                                    </span>
+                                    <h4 class="modal-title fw-bold" id="modalLabel-{{ course.id }}">{{ course.name }}</h4>
+                                </div>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-4">
+                                <div class="row g-4">
+                                    <div class="col-lg-5">
+                                        <img src="{{ course.image_url }}" class="img-fluid rounded-3 border border-secondary-subtle mb-3" alt="{{ course.name }}">
+                                        <div class="d-flex align-items-center gap-2 mb-2 text-secondary">
+                                            <i class="bi bi-clock"></i>
+                                            <span>Duration: <strong>{{ course.duration }}</strong></span>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-2 text-secondary">
+                                            <i class="bi bi-award"></i>
+                                            <span>Certificate: <strong>Available upon 100% completion</strong></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <h5 class="fw-bold mb-2">About This Course</h5>
+                                        <p class="text-secondary small mb-4">{{ course.description }}</p>
+
+                                        <h5 class="fw-bold mb-2">Syllabus Curriculum</h5>
+                                        <ul class="list-group list-group-flush bg-transparent">
+                                            {% if course.syllabus %}
+                                                {% for topic in course.syllabus.split(';') %}
+                                                    <li class="list-group-item bg-transparent text-secondary border-secondary-subtle px-0 py-2 small d-flex align-items-center gap-2">
+                                                        <i class="bi bi-check2-circle text-primary"></i>
+                                                        <span>{{ topic }}</span>
+                                                    </li>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer border-secondary-subtle p-3 px-4">
+                                <button type="button" class="btn btn-secondary-glass" data-bs-dismiss="modal">Close</button>
+                                {% if session.get('user_id') %}
+                                    {% if course.id not in enrolled_course_ids %}
+                                        <form action="{{ url_for('enroll', course_id=course.id) }}" method="POST">
+                                            <button type="submit" class="btn btn-primary-gradient">Enroll Now</button>
+                                        </form>
+                                    {% else %}
+                                        <a href="{{ url_for('dashboard') }}" class="btn btn-primary-gradient">Go to Dashboard</a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{{ url_for('login') }}" class="btn btn-primary-gradient">Login to Enroll</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center py-5">
+                <div class="glass-card p-5">
+                    <i class="bi bi-folder-x fs-1 text-secondary mb-3 d-block"></i>
+                    <h4 class="text-light">No courses found</h4>
+                    <a href="{{ url_for('courses') }}" class="btn btn-secondary-glass mt-3">Reset Search Filters</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,258 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+
+
+<h2 class="mb-4">
+
+Dashboard Overview
+
+</h2>
+
+
+
+
+<!-- ======================
+KPI CARDS
+====================== -->
+
+
+<div class="row mb-4">
+
+
+
+<div class="col-md-3">
+
+
+<div class="card p-4 text-center">
+
+
+<i class="bi bi-currency-rupee fs-1"></i>
+
+
+<h6 class="mt-3">
+
+Total Revenue
+
+</h6>
+
+
+<h3>
+
+₹ {{revenue}}
+
+</h3>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-3">
+
+
+<div class="card p-4 text-center">
+
+
+<i class="bi bi-cart-check fs-1"></i>
+
+
+<h6 class="mt-3">
+
+Total Orders
+
+</h6>
+
+
+<h3>
+
+{{orders}}
+
+</h3>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="col-md-3">
+
+
+<div class="card p-4 text-center">
+
+
+<i class="bi bi-people fs-1"></i>
+
+
+<h6 class="mt-3">
+
+Customers
+
+</h6>
+
+
+<h3>
+
+{{customers}}
+
+</h3>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="col-md-3">
+
+
+<div class="card p-4 text-center">
+
+
+<i class="bi bi-shop fs-1"></i>
+
+
+<h6 class="mt-3">
+
+Sellers
+
+</h6>
+
+
+<h3>
+
+{{sellers}}
+
+</h3>
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- ======================
+CHARTS
+====================== -->
+
+
+<div class="row">
+
+
+
+<div class="col-md-6 mb-4">
+
+<div class="plot-container">
+
+{{chart1|safe}}
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="col-md-6 mb-4">
+
+<div class="plot-container">
+
+{{chart2|safe}}
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="col-md-6 mb-4">
+
+<div class="plot-container">
+
+{{chart3|safe}}
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="col-md-6 mb-4">
+
+<div class="plot-container">
+
+{{chart4|safe}}
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="col-md-6 mb-4">
+
+<div class="plot-container">
+
+{{chart5|safe}}
+
+</div>
+
+</div>
+
+
+
+
+
+<div class="col-md-6 mb-4">
+
+<div class="plot-container">
+
+{{chart6|safe}}
+
+</div>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+{% endblock %}

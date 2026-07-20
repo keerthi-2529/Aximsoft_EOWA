@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Login - JobNest{% endblock %}
+{% block content %}
+<div class="auth-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="card auth-card p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-briefcase-fill text-primary fs-1"></i>
+                        <h4 class="fw-bold mt-2">Welcome Back</h4>
+                        <p class="text-muted small">Log in to continue your job search or manage your postings.</p>
+                    </div>
+                    <form method="post" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="email" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" name="password" required minlength="6">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2">Login</button>
+                    </form>
+                    <p class="text-center small text-muted mt-4 mb-0">
+                        Don't have an account? <a href="{{ url_for('register') }}">Sign up here</a>
+                    </p>
+                    <div class="alert alert-light border small mt-3 mb-0">
+                        <strong>Demo accounts:</strong><br>
+                        Candidate: candidate@example.com / password123<br>
+                        Employer: hr@technova.com / password123
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

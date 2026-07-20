@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}SkillForge - Elevate Your Skills, Forge Your Future{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-center text-lg-start py-5 my-md-4">
+    <div class="row align-items-center gy-5">
+        <div class="col-lg-6 animate-fade-in">
+            <h1 class="hero-title">
+                Forge Your Skills. <br>
+                <span class="hero-gradient-text">Master Your Future.</span>
+            </h1>
+            <p class="text-secondary fs-5 mb-4 max-w-xl">
+                Unlock industry-grade expertise with SkillForge. Explore interactive courses in software programming, data science, visual design, and machine learning, completely at your own pace.
+            </p>
+            <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
+                <a href="{{ url_for('courses') }}" class="btn btn-primary-gradient px-4 py-3 fs-6">
+                    Explore Courses <i class="bi bi-arrow-right-short fs-5"></i>
+                </a>
+                {% if not session.get('user_id') %}
+                    <a href="{{ url_for('login') }}" class="btn btn-secondary-glass px-4 py-3 fs-6">
+                        Join for Free
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary-glass px-4 py-3 fs-6">
+                        My Dashboard
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-6 text-center animate-fade-in" style="animation-delay: 0.2s;">
+            <div class="position-relative d-inline-block">
+                <div class="position-absolute translate-middle-x start-50 top-50 bg-primary opacity-25 rounded-circle blur-3xl" style="width: 400px; height: 400px; z-index: -1; background: radial-gradient(#8b5cf6, #3b82f6) !important;"></div>
+                <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=700&q=80" alt="Student Studying Web Courses" class="img-fluid rounded-4 shadow-lg border border-secondary" style="max-height: 420px; object-fit: cover; border-color: rgba(255,255,255,0.07) !important;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Grid -->
+<section id="stats" class="py-5">
+    <div class="glass-card p-4 p-md-5">
+        <div class="row text-center gy-4">
+            <div class="col-6 col-md-3">
+                <h3 class="fw-extrabold text-light fs-1 mb-1">12K+</h3>
+                <span class="text-secondary small text-uppercase tracking-wider">Active Learners</span>
+            </div>
+            <div class="col-6 col-md-3 border-start-md border-secondary">
+                <h3 class="fw-extrabold text-light fs-1 mb-1">60+</h3>
+                <span class="text-secondary small text-uppercase tracking-wider">Tech Courses</span>
+            </div>
+            <div class="col-6 col-md-3 border-start-md border-secondary">
+                <h3 class="fw-extrabold text-light fs-1 mb-1">100%</h3>
+                <span class="text-secondary small text-uppercase tracking-wider">Self-Paced</span>
+            </div>
+            <div class="col-6 col-md-3 border-start-md border-secondary">
+                <h3 class="fw-extrabold text-light fs-1 mb-1">98%</h3>
+                <span class="text-secondary small text-uppercase tracking-wider">Success Rate</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Grid -->
+<section id="features" class="py-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-secondary-subtle text-primary border border-secondary px-3 py-2 mb-2 rounded-pill small">HOW WE WORK</span>
+        <h2 class="fw-bold fs-2 text-light">Built for Modern Lifelong Learning</h2>
+        <p class="text-secondary mx-auto" style="max-width: 600px;">SkillForge pairs high-quality content with state-of-the-art interactive user tools to keep you engaged, motivated, and moving forward.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="glass-card h-100 p-4">
+                <div class="stat-icon purple mb-4">
+                    <i class="bi bi-laptop"></i>
+                </div>
+                <h4 class="text-light fw-semibold mb-2">Curated Tech Catalog</h4>
+                <p class="text-secondary small mb-0">Learn what's highly relevant today. Our courses focus on React Web Dev, Python Programming, Machine Learning, Data Analytics, and Brand Design.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card h-100 p-4">
+                <div class="stat-icon blue mb-4">
+                    <i class="bi bi-sliders"></i>
+                </div>
+                <h4 class="text-light fw-semibold mb-2">Interactive Dashboard</h4>
+                <p class="text-secondary small mb-0">Update progress dynamically as you study. Adjust percentage bars, organize your curriculum, and inspect real-time user metrics instantly.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card h-100 p-4">
+                <div class="stat-icon green mb-4">
+                    <i class="bi bi-patch-check-fill"></i>
+                </div>
+                <h4 class="text-light fw-semibold mb-2">Verified Certificates</h4>
+                <p class="text-secondary small mb-0">Reach 100% course completion and immediately unlock a secure, printable graduation certificate complete with unique validation credentials.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Courses Section -->
+<section class="py-5">
+    <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+            <span class="badge bg-secondary-subtle text-primary border border-secondary px-3 py-2 mb-2 rounded-pill small">TOP SELLER</span>
+            <h2 class="fw-bold text-light mb-0">Featured Courses</h2>
+        </div>
+        <a href="{{ url_for('courses') }}" class="btn btn-secondary-glass py-2 px-4 d-flex align-items-center gap-2">
+            View Catalog <i class="bi bi-chevron-right small"></i>
+        </a>
+    </div>
+
+    <div class="row g-4">
+        {% if courses %}
+            {% for course in courses %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card h-100 overflow-hidden d-flex flex-column">
+                        <img src="{{ course.image_url }}" class="course-card-img" alt="{{ course.name }}">
+                        <div class="course-card-body flex-grow-1 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge badge-custom badge-{{ course.category.lower().replace(' ', '-').replace('&', 'and') }}">
+                                        {{ course.category }}
+                                    </span>
+                                    <span class="text-secondary small"><i class="bi bi-clock me-1"></i>{{ course.duration }}</span>
+                                </div>
+                                <h5 class="text-light fw-bold mb-2">{{ course.name }}</h5>
+                                <p class="text-secondary small mb-4 line-clamp-3">
+                                    {{ course.description }}
+                                </p>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="{{ url_for('courses') }}" class="btn btn-primary-gradient w-100">
+                                    Enroll Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center py-4">
+                <p class="text-secondary">No courses available at the moment. Please run migrations first.</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

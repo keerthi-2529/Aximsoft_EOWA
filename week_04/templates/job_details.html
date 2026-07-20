@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}{{ job.job_title }} - JobNest{% endblock %}
+{% block content %}
+
+<section class="container py-5">
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <div class="d-flex gap-3 mb-3">
+                    <div class="company-logo-box" style="width:64px;height:64px;font-size:1.6rem;">{{ job.company_name[0]|upper }}</div>
+                    <div>
+                        <h4 class="fw-bold mb-1">{{ job.job_title }}</h4>
+                        <p class="text-muted mb-1">{{ job.company_name }} &middot; <i class="bi bi-geo-alt"></i> {{ job.location }}</p>
+                        <span class="badge bg-primary-subtle text-primary">{{ job.job_type }}</span>
+                        <span class="badge bg-secondary-subtle text-secondary">{{ job.experience }}</span>
+                    </div>
+                </div>
+
+                <h6 class="fw-bold mt-4">Job Description</h6>
+                <p class="text-muted">{{ job.description }}</p>
+
+                <h6 class="fw-bold mt-3">Skills Required</h6>
+                <div class="mb-3">
+                    {% for skill in job.skills.split(',') %}
+                        <span class="skill-badge">{{ skill.strip() }}</span>
+                    {% endfor %}
+                </div>
+
+                <h6 class="fw-bold mt-3">Salary</h6>
+                <p class="text-muted"><i class="bi bi-cash-coin"></i> {{ job.salary or 'Not disclosed' }}</p>
+
+                <h6 class="fw-bold mt-3">Posted On</h6>
+                <p class="text-muted mb-0"><i class="bi bi-calendar"></i> {{ job.posted_date }}</p>
+            </div>
+
+            {% if related %}
+            <h6 class="fw-bold mb-3">More jobs from {{ job.company_name }}</h6>
+            <div class="row g-3">
+                {% for r in related %}
+                <div class="col-md-4">
+                    <div class="job-card p-3 h-100">
+                        <h6 class="fw-bold small mb-1">{{ r.job_title }}</h6>
+                        <p class="text-muted small mb-2">{{ r.location }}</p>
+                        <a href="{{ url_for('job_details', job_id=r.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm p-4">
+                {% if current_user and current_user.role == 'candidate' %}
+                    {% if already_applied %}
+                        <button class="btn btn-success w-100 mb-2" disabled><i class="bi bi-check-circle"></i> Already Applied</button>
+                    {% elif current_user.resume_file %}
+                        <button class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#applyModal">
+                            <i class="bi bi-send"></i> Apply Now
+                        </button>
+                    {% else %}
+                        <a href="{{ url_for('profile') }}" class="btn btn-warning w-100 mb-2">
+                            <i class="bi bi-upload"></i> Upload Resume to Apply
+                        </a>
+                    {% endif %}
+                    <form method="post" action="{{ url_for('save_job', job_id=job.id) }}">
+                        <button type="submit" class="btn btn-outline-secondary w-100"><i class="bi bi-bookmark"></i> Save Job</button>
+                    </form>
+                {% elif current_user and current_user.role == 'employer' %}
+                    <p class="text-muted small mb-0">You are logged in as an employer. Switch to a candidate account to apply.</p>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-primary w-100 mb-2"><i class="bi bi-send"></i> Login to Apply</a>
+                {% endif %}
+
+                <hr>
+                <h6 class="fw-bold">Company Details</h6>
+                <p class="small text-muted mb-1"><i class="bi bi-building"></i> {{ job.company_name }}</p>
+                <p class="small text-muted mb-0"><i class="bi bi-geo-alt"></i> {{ job.location }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if current_user and current_user.role == 'candidate' and not already_applied and current_user.resume_file %}
+<div class="modal fade" id="applyModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="{{ url_for('apply_job', job_id=job.id) }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Apply for {{ job.job_title }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted small">Your saved resume will be submitted to
+                        <strong>{{ job.company_name }}</strong>.</p>
+                    <p class="small mb-1"><i class="bi bi-file-earmark-text"></i> Resume on file:
+                        <strong>{{ current_user.resume_file }}</strong></p>
+                    <a href="{{ url_for('profile') }}" class="small">Update your resume</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm &amp; Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock %}

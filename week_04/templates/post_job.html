@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Post a Job - JobNest{% endblock %}
+{% block content %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm p-4 p-md-5">
+                <h4 class="fw-bold mb-1">Post a New Job</h4>
+                <p class="text-muted small mb-4">Fill in the details below to publish your job opening.</p>
+                <form method="post" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Company Name</label>
+                            <input type="text" name="company_name" class="form-control" value="{{ current_user.company_name or '' }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Job Title</label>
+                            <input type="text" name="job_title" class="form-control" value="{{ form.get('job_title','') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Location</label>
+                            <input type="text" name="location" class="form-control" value="{{ form.get('location','') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Job Type</label>
+                            <select name="job_type" class="form-select" required>
+                                <option value="" disabled selected>Select job type</option>
+                                {% for jt in job_types %}
+                                <option value="{{ jt }}">{{ jt }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Experience Required</label>
+                            <input type="text" name="experience" class="form-control" placeholder="e.g. 1-3 years" value="{{ form.get('experience','') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Salary</label>
+                            <input type="text" name="salary" class="form-control" placeholder="e.g. ₹6,00,000 - ₹9,00,000" value="{{ form.get('salary','') }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Skills Required (comma separated)</label>
+                            <input type="text" name="skills" class="form-control" placeholder="e.g. Python, Flask, SQL" value="{{ form.get('skills','') }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Job Description</label>
+                            <textarea name="description" class="form-control" rows="5" required>{{ form.get('description','') }}</textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 py-2 mt-4"><i class="bi bi-send"></i> Publish Job</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

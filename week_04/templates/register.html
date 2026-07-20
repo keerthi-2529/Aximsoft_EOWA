@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Sign Up - JobNest{% endblock %}
+{% block content %}
+<div class="auth-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6">
+                <div class="card auth-card p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-briefcase-fill text-primary fs-1"></i>
+                        <h4 class="fw-bold mt-2">Create Your Account</h4>
+                        <p class="text-muted small">Join JobNest as a candidate or an employer.</p>
+                    </div>
+                    <form method="post" novalidate id="registerForm" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label class="form-label">I am a</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="role" id="roleCandidate" value="candidate" checked>
+                                <label class="btn btn-outline-primary" for="roleCandidate"><i class="bi bi-person"></i> Candidate</label>
+                                <input type="radio" class="btn-check" name="role" id="roleEmployer" value="employer">
+                                <label class="btn btn-outline-primary" for="roleEmployer"><i class="bi bi-building"></i> Employer</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" name="name" required value="{{ form.get('name','') }}">
+                        </div>
+                        <div class="mb-3" id="companyField" style="display:none;">
+                            <label class="form-label">Company Name</label>
+                            <input type="text" class="form-control" name="company_name" value="{{ form.get('company_name','') }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email address</label>
+                            <input type="email" class="form-control" name="email" required value="{{ form.get('email','') }}">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" name="password" required minlength="6">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" name="confirm_password" required minlength="6">
+                            </div>
+                        </div>
+                        <div class="mb-3" id="resumeField">
+                            <label class="form-label">Resume (PDF, DOC, DOCX)</label>
+                            <input type="file" class="form-control" name="resume" accept=".pdf,.doc,.docx" required>
+                            <div class="form-text">Candidates must upload a resume to register. You'll be able to apply
+                                to jobs using this resume, and update it anytime from your profile.</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2 mt-2">Create Account</button>
+                    </form>
+                    <p class="text-center small text-muted mt-4 mb-0">
+                        Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+const roleEmployer = document.getElementById('roleEmployer');
+const roleCandidate = document.getElementById('roleCandidate');
+const companyField = document.getElementById('companyField');
+const resumeField = document.getElementById('resumeField');
+const resumeInput = resumeField.querySelector('input[name="resume"]');
+
+function toggleFields() {
+    if (roleEmployer.checked) {
+        companyField.style.display = 'block';
+        resumeField.style.display = 'none';
+        resumeInput.required = false;
+    } else {
+        companyField.style.display = 'none';
+        resumeField.style.display = 'block';
+        resumeInput.required = true;
+    }
+}
+roleEmployer.addEventListener('change', toggleFields);
+roleCandidate.addEventListener('change', toggleFields);
+toggleFields();
+</script>
+{% endblock %}

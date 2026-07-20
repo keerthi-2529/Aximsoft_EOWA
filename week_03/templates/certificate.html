@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Certificate of Completion - {{ enrollment.name }} - SkillForge{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in my-4">
+    <!-- Toolbar (Hidden during print) -->
+    <div class="d-flex justify-content-between align-items-center mb-4 no-print">
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary-glass py-2 px-3">
+            <i class="bi bi-arrow-left"></i> Back to Dashboard
+        </a>
+        <button onclick="window.print();" class="btn btn-primary-gradient py-2 px-4">
+            <i class="bi bi-printer-fill me-1"></i> Print / Save as PDF
+        </button>
+    </div>
+
+    <!-- Certificate Container -->
+    <div class="row justify-content-center">
+        <div class="col-xl-10">
+            <div class="certificate-frame text-center">
+
+                <div class="mb-4">
+                    <span class="cert-subtitle d-block mb-1">SKILLFORGE ACADEMY</span>
+                    <i class="bi bi-mortarboard text-warning fs-3"></i>
+                </div>
+
+                <h1 class="cert-title">Certificate of Completion</h1>
+
+                <p class="cert-text my-4 fs-5">This is proudly presented to</p>
+
+                <h2 class="cert-recipient">{{ enrollment.user_name }}</h2>
+
+                <p class="cert-text my-3">for successfully completing the course curriculum and exams for</p>
+
+                <h3 class="cert-course">{{ enrollment.name }}</h3>
+
+                <p class="cert-text mb-4">
+                    A comprehensive self-paced technical course covering concepts in depth. <br>
+                    Presented on this day, <strong>{{ enrollment.completion_date.split(' ')[0] if enrollment.completion_date else '2026-06-28' }}</strong>.
+                </p>
+
+                <div class="cert-meta row align-items-center justify-content-between mt-5 pt-4">
+                    <div class="col-md-4 text-center text-md-start order-2 order-md-1">
+                        <span class="cert-signature d-block mb-1">SkillForge Director</span>
+                        <span class="text-secondary small">Authorized Signature</span>
+                    </div>
+
+                    <div class="col-md-4 text-center order-1 order-md-2 mb-4 mb-md-0">
+                        <div class="cert-stamp">
+                            <span>VERIFIED<br>SKILLFORGE</span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 text-center text-md-end order-3 order-md-3">
+                        <span class="d-block text-secondary small">Certificate Verification ID</span>
+                        <span class="cert-id">{{ enrollment.certificate_id }}</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

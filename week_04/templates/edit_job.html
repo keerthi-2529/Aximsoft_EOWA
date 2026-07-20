@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Edit Job - JobNest{% endblock %}
+{% block content %}
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm p-4 p-md-5">
+                <h4 class="fw-bold mb-1">Edit Job Posting</h4>
+                <p class="text-muted small mb-4">Update the details of this job listing.</p>
+                <form method="post" novalidate>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Company Name</label>
+                            <input type="text" name="company_name" class="form-control" value="{{ job.company_name }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Job Title</label>
+                            <input type="text" name="job_title" class="form-control" value="{{ job.job_title }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Location</label>
+                            <input type="text" name="location" class="form-control" value="{{ job.location }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Job Type</label>
+                            <select name="job_type" class="form-select" required>
+                                {% for jt in job_types %}
+                                <option value="{{ jt }}" {% if jt == job.job_type %}selected{% endif %}>{{ jt }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Experience Required</label>
+                            <input type="text" name="experience" class="form-control" value="{{ job.experience }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Salary</label>
+                            <input type="text" name="salary" class="form-control" value="{{ job.salary }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Skills Required (comma separated)</label>
+                            <input type="text" name="skills" class="form-control" value="{{ job.skills }}">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Job Description</label>
+                            <textarea name="description" class="form-control" rows="5" required>{{ job.description }}</textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary py-2 px-4"><i class="bi bi-check-circle"></i> Save Changes</button>
+                        <a href="{{ url_for('employer_dashboard') }}" class="btn btn-outline-secondary py-2 px-4">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

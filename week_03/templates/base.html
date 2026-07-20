@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SkillForge - E-Learning Platform{% endblock %}</title>
+    <meta name="description" content="Unlock your potential with SkillForge. Explore professional online courses in coding, design, AI, and data science.">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg glass-navbar fixed-top no-print">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <i class="bi bi-mortarboard-fill"></i>
+                <span>SkillForge</span>
+            </a>
+            <button class="navbar-toggler border-0 text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list fs-3"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/courses' %}active{% endif %}" href="{{ url_for('courses') }}">Courses</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center gap-3">
+                    {% if session.get('user_id') %}
+                        <a class="nav-link {% if request.path == '/dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
+                            <i class="bi bi-grid-1x2-fill me-1"></i> Dashboard
+                        </a>
+                        <a class="nav-link {% if request.path == '/profile' %}active{% endif %}" href="{{ url_for('profile') }}">
+                            <i class="bi bi-person-fill me-1"></i> Profile
+                        </a>
+                        <span class="text-secondary d-none d-md-inline">|</span>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary-glass dropdown-toggle py-1 px-3 d-flex align-items-center gap-2" type="button" id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle"></i>
+                                <span>{{ session.get('user_name', 'Student') }}</span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark border-secondary bg-dark-subtle mt-2" aria-labelledby="userMenu">
+                                <li><a class="dropdown-item" href="{{ url_for('profile') }}"><i class="bi bi-gear-fill me-2"></i>Settings</a></li>
+                                <li><hr class="dropdown-divider border-secondary"></li>
+                                <li><a class="dropdown-item text-danger" href="{{ url_for('logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="btn btn-secondary-glass py-2 px-4">Log In</a>
+                        <a href="{{ url_for('login') }}?tab=register" class="btn btn-primary-gradient py-2 px-4">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <main class="flex-shrink-0" style="padding-top: 6.5rem; padding-bottom: 3rem;">
+        <div class="container">
+            <!-- Flash Messages Placeholder -->
+            <div id="alert-placeholder">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-glass alert-glass-{% if category == 'error' %}danger{% else %}{{ category }}{% endif %} alert-dismissible fade show" role="alert">
+                                <div class="d-flex align-items-center gap-2">
+                                    {% if category == 'success' %}
+                                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                                    {% elif category == 'error' or category == 'danger' %}
+                                        <i class="bi bi-exclamation-triangle-fill text-danger fs-5"></i>
+                                    {% else %}
+                                        <i class="bi bi-info-circle-fill text-info fs-5"></i>
+                                    {% endif %}
+                                    <div>{{ message }}</div>
+                                </div>
+                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-4 bg-dark-subtle border-top border-secondary-subtle no-print" style="background-color: #080c14 !important; border-color: rgba(255,255,255,0.05) !important;">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-lg-4">
+                    <a class="navbar-brand mb-3" href="{{ url_for('home') }}">
+                        <i class="bi bi-mortarboard-fill"></i>
+                        <span>SkillForge</span>
+                    </a>
+                    <p class="text-secondary small mt-2">Empowering learners worldwide through world-class interactive educational courses in technology, development, and design.</p>
+                </div>
+                <div class="col-md-4 col-lg-2 offset-lg-2">
+                    <h6 class="text-light fw-bold mb-3">Explore</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('courses') }}" class="text-secondary small">Course Catalog</a></li>
+                        <li class="mb-2"><a href="{{ url_for('home') }}#features" class="text-secondary small">Key Features</a></li>
+                        <li class="mb-2"><a href="{{ url_for('home') }}#stats" class="text-secondary small">Statistics</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <h6 class="text-light fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-secondary small">Help Center</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary small">Terms of Service</a></li>
+                        <li class="mb-2"><a href="#" class="text-secondary small">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 col-lg-2">
+                    <h6 class="text-light fw-bold mb-3">Connect</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-secondary-glass btn-sm p-2"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="btn btn-secondary-glass btn-sm p-2"><i class="bi bi-github"></i></a>
+                        <a href="#" class="btn btn-secondary-glass btn-sm p-2"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr class="border-secondary my-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <span class="text-secondary small">&copy; 2026 SkillForge. All rights reserved.</span>
+                <span class="text-secondary small d-flex align-items-center gap-1">Made with <i class="bi bi-heart-fill text-danger small"></i> for lifelong learning</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Chart.js for stats rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom JS -->
+    <script>// SkillForge Custom Scripts
+document.addEventListener('DOMContentLoaded', function() {
+
+    // Auto-dismiss Alerts after 4 seconds
+    const alerts = document.querySelectorAll('.alert-dismissible');
+    alerts.forEach(function(alert) {
+        setTimeout(function() {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        }, 4000);
+    });
+
+    // Real-time Slider Interaction for Progress Tracking
+    const progressSliders = document.querySelectorAll('.progress-slider');
+    progressSliders.forEach(function(slider) {
+        const enrollmentId = slider.getAttribute('data-enrollment-id');
+        const valueLabel = document.getElementById(`progress-val-${enrollmentId}`);
+        const saveButton = document.getElementById(`save-btn-${enrollmentId}`);
+        const statusBadge = document.getElementById(`status-badge-${enrollmentId}`);
+
+        slider.addEventListener('input', function() {
+            const currentValue = slider.value;
+            valueLabel.textContent = `${currentValue}%`;
+
+            // Show save button once modified
+            if (saveButton) {
+                saveButton.classList.remove('d-none');
+            }
+
+            // Preview status change dynamically
+            if (statusBadge) {
+                if (currentValue == 100) {
+                    statusBadge.className = 'badge bg-success text-white badge-custom';
+                    statusBadge.textContent = 'Completed';
+                } else if (currentValue == 0) {
+                    statusBadge.className = 'badge bg-secondary text-white badge-custom';
+                    statusBadge.textContent = 'Not Started';
+                } else {
+                    statusBadge.className = 'badge bg-warning text-dark badge-custom';
+                    statusBadge.textContent = 'In Progress';
+                }
+            }
+        });
+    });
+
+    // Auth Page Tab Toggles (Registration / Login)
+    const toggleReg = document.getElementById('toggle-register');
+    const toggleLog = document.getElementById('toggle-login');
+    const loginForm = document.getElementById('login-form-wrapper');
+    const registerForm = document.getElementById('register-form-wrapper');
+
+    if (toggleReg && toggleLog && loginForm && registerForm) {
+        toggleReg.addEventListener('click', function(e) {
+            e.preventDefault();
+            loginForm.classList.add('d-none');
+            registerForm.classList.remove('d-none');
+            toggleLog.classList.remove('active');
+            toggleReg.classList.add('active');
+        });
+
+        toggleLog.addEventListener('click', function(e) {
+            e.preventDefault();
+            registerForm.classList.add('d-none');
+            loginForm.classList.remove('d-none');
+            toggleReg.classList.remove('active');
+            toggleLog.classList.add('active');
+        });
+    }
+
+    // Client-side Registration Validation
+    const regForm = document.getElementById('register-form');
+    if (regForm) {
+        regForm.addEventListener('submit', function(e) {
+            const name = document.getElementById('reg-name').value.trim();
+            const email = document.getElementById('reg-email').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+            if (name.length < 2) {
+                e.preventDefault();
+                showAlert('Name must be at least 2 characters long.', 'danger');
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                e.preventDefault();
+                showAlert('Please enter a valid email address.', 'danger');
+                return;
+            }
+
+            if (password.length < 6) {
+                e.preventDefault();
+                showAlert('Password must be at least 6 characters long.', 'danger');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                showAlert('Passwords do not match. Please verify.', 'danger');
+                return;
+            }
+        });
+    }
+
+    // Helper functions
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    function showAlert(message, type) {
+        const alertContainer = document.getElementById('alert-placeholder');
+        if (!alertContainer) return;
+
+        const alertHtml = `
+            <div class="alert alert-glass alert-glass-${type} alert-dismissible fade show" role="alert">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-${type === 'success' ? 'check-circle-fill' : 'exclamation-triangle-fill'} text-${type}"></i>
+                    <div>${message}</div>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        `;
+        alertContainer.innerHTML = alertHtml;
+
+        // Auto-close new alerts
+        setTimeout(function() {
+            const dynamicAlert = alertContainer.querySelector('.alert');
+            if (dynamicAlert) {
+                const bsAlert = new bootstrap.Alert(dynamicAlert);
+                bsAlert.close();
+            }
+        }, 4000);
+    }
+});
+
+// Render Dashboard Chart if elements are present
+function initDashboardChart(completedCount, inProgressCount, notStartedCount) {
+    const ctx = document.getElementById('progressChart');
+    if (!ctx) return;
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Completed', 'In Progress', 'Not Started'],
+            datasets: [{
+                data: [completedCount, inProgressCount, notStartedCount],
+                backgroundColor: [
+                    '#10b981', // green
+                    '#f59e0b', // warning orange
+                    '#6b7280'  // muted grey
+                ],
+                borderColor: 'rgba(11, 15, 25, 0.8)',
+                borderWidth: 2,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: '#9ca3af',
+                        font: {
+                            family: 'Inter',
+                            size: 12
+                        },
+                        padding: 15
+                    }
+                }
+            },
+            cutout: '70%'
+        }
+    });
+}</script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Candidate Dashboard - JobNest{% endblock %}
+{% block content %}
+<section class="container py-5">
+
+    <div class="card border-0 shadow-sm p-4 mb-4" style="background: linear-gradient(120deg, #ea580c, #3d1f0b); color:#fff;">
+        <h4 class="fw-bold mb-1">Welcome back, {{ current_user.name }}!</h4>
+        <p class="mb-0 text-white-50">Track your applications and discover new opportunities tailored for you.</p>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-3 col-6">
+            <div class="summary-card text-center">
+                <i class="bi bi-send text-primary"></i>
+                <h4 class="fw-bold mt-2 mb-0">{{ summary.total_applied }}</h4>
+                <p class="small text-muted mb-0">Applications</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="summary-card text-center">
+                <i class="bi bi-star text-primary"></i>
+                <h4 class="fw-bold mt-2 mb-0">{{ summary.shortlisted }}</h4>
+                <p class="small text-muted mb-0">Shortlisted</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="summary-card text-center">
+                <i class="bi bi-calendar-event text-primary"></i>
+                <h4 class="fw-bold mt-2 mb-0">{{ summary.interviews }}</h4>
+                <p class="small text-muted mb-0">Interviews</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="summary-card text-center">
+                <i class="bi bi-bookmark text-primary"></i>
+                <h4 class="fw-bold mt-2 mb-0">{{ summary.saved }}</h4>
+                <p class="small text-muted mb-0">Saved Jobs</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm p-4 mb-4">
+        <h5 class="fw-bold mb-3">My Applications</h5>
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Location</th>
+                        <th>Applied On</th>
+                        <th>Status</th>
+                        <th>Interview</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr>
+                        <td><a href="{{ url_for('job_details', job_id=app.job_id) }}" class="text-decoration-none fw-semibold">{{ app.job_title }}</a></td>
+                        <td>{{ app.company_name }}</td>
+                        <td>{{ app.location }}</td>
+                        <td>{{ app.applied_date }}</td>
+                        <td><span class="badge bg-{{ STATUS_BADGE[app.status] }}">{{ app.status }}</span></td>
+                        <td>
+                            {% if app.status == 'Interview Scheduled' and app.interview_datetime %}
+                            <p class="small mb-1"><i class="bi bi-calendar-event"></i> {{ app.interview_datetime }}</p>
+                            {% if app.interview_location %}
+                            <p class="small text-muted mb-0"><i class="bi bi-geo-alt"></i> {{ app.interview_location }}</p>
+                            {% endif %}
+                            {% else %}
+                            <span class="text-muted small">-</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="6" class="text-center text-muted py-4">You haven't applied to any jobs yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm p-4">
+        <h5 class="fw-bold mb-3">Saved Jobs</h5>
+        <div class="row g-3">
+            {% for job in saved %}
+            <div class="col-md-4">
+                <div class="job-card p-3 h-100">
+                    <h6 class="fw-bold small mb-1">{{ job.job_title }}</h6>
+                    <p class="text-muted small mb-2">{{ job.company_name }} &middot; {{ job.location }}</p>
+                    <a href="{{ url_for('job_details', job_id=job.id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
+            {% else %}
+            <p class="text-muted text-center mb-0">No saved jobs yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

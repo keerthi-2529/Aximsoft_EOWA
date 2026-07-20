@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+
+{% block title %}My Courses Dashboard - SkillForge{% endblock %}
+
+{% block content %}
+<div class="animate-fade-in">
+    <!-- Header -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-5">
+        <div>
+            <h1 class="fw-bold text-light mb-1">My Dashboard</h1>
+            <p class="text-secondary mb-0">Welcome back, <strong>{{ session.get('user_name') }}</strong>! Track your study metrics and course progress.</p>
+        </div>
+        <a href="{{ url_for('courses') }}" class="btn btn-primary-gradient py-2.5 px-4 d-flex align-items-center gap-2">
+            <i class="bi bi-plus-circle"></i> Browse More Courses
+        </a>
+    </div>
+
+    <!-- Stats & Graph Section -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-8">
+            <div class="row g-4">
+                <div class="col-sm-6">
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon purple">
+                            <i class="bi bi-journal-bookmark-fill"></i>
+                        </div>
+                        <div>
+                            <span class="text-secondary small d-block">Enrolled Courses</span>
+                            <h3 class="fw-bold text-light mb-0">{{ enrollments|length }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon green">
+                            <i class="bi bi-patch-check-fill"></i>
+                        </div>
+                        <div>
+                            <span class="text-secondary small d-block">Completed Courses</span>
+                            <h3 class="fw-bold text-light mb-0">{{ completed_count }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon blue">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+                        <div>
+                            <span class="text-secondary small d-block">In Progress</span>
+                            <h3 class="fw-bold text-light mb-0">{{ in_progress_count }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="glass-card stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                            <i class="bi bi-percent"></i>
+                        </div>
+                        <div>
+                            <span class="text-secondary small d-block">Average Progress</span>
+                            <h3 class="fw-bold text-light mb-0">{{ avg_progress }}%</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart.js Widget -->
+        <div class="col-lg-4">
+            <div class="glass-card p-4 h-100 d-flex flex-column align-items-center justify-content-center">
+                <h6 class="text-light fw-bold text-center mb-3">Overall Progress Distribution</h6>
+                <div style="position: relative; height: 160px; width: 100%;">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enrolled Courses List -->
+    <h3 class="fw-bold text-light mb-4">My Enrolled Courses</h3>
+
+    {% if enrollments %}
+        <div class="row g-4">
+            {% for enroll in enrollments %}
+                <div class="col-12">
+                    <div class="glass-card p-4">
+                        <div class="row g-4 align-items-center">
+                            <div class="col-md-5">
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <span class="badge badge-custom badge-{{ enroll.category.lower().replace(' ', '-').replace('&', 'and') }}">
+                                        {{ enroll.category }}
+                                    </span>
+                                    <span class="text-secondary small"><i class="bi bi-clock me-1"></i>{{ enroll.duration }}</span>
+                                </div>
+                                <h4 class="text-light fw-bold mb-2">{{ enroll.name }}</h4>
+                                <p class="text-secondary small mb-0 line-clamp-2">{{ enroll.description }}</p>
+                            </div>
+
+                            <!-- Interactive Slider & Status -->
+                            <div class="col-md-5">
+                                <form action="{{ url_for('update_progress', enrollment_id=enroll.id) }}" method="POST" class="d-flex flex-column gap-2">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <span class="text-secondary small">Status:</span>
+                                            {% if enroll.progress == 100 %}
+                                                <span id="status-badge-{{ enroll.id }}" class="badge bg-success text-white badge-custom">Completed</span>
+                                            {% elif enroll.progress == 0 %}
+                                                <span id="status-badge-{{ enroll.id }}" class="badge bg-secondary text-white badge-custom">Not Started</span>
+                                            {% else %}
+                                                <span id="status-badge-{{ enroll.id }}" class="badge bg-warning text-dark badge-custom">In Progress</span>
+                                            {% endif %}
+                                        </div>
+                                        <span id="progress-val-{{ enroll.id }}" class="fw-bold text-primary">{{ enroll.progress }}%</span>
+                                    </div>
+
+                                    <input type="range" name="progress" min="0" max="100" value="{{ enroll.progress }}"
+                                           class="custom-range progress-slider" data-enrollment-id="{{ enroll.id }}">
+
+                                    <button type="submit" id="save-btn-{{ enroll.id }}" class="btn btn-primary-gradient btn-sm mt-2 py-1.5 px-3 d-none align-self-end">
+                                        <i class="bi bi-save"></i> Save Progress
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!-- Certificates / Actions -->
+                            <div class="col-md-2 text-md-end text-start">
+                                {% if enroll.progress == 100 %}
+                                    <a href="{{ url_for('view_certificate', certificate_id=enroll.certificate_id) }}" class="btn btn-primary-gradient w-100 py-2.5">
+                                        <i class="bi bi-award-fill me-1"></i> Certificate
+                                    </a>
+                                {% else %}
+                                    <button class="btn btn-secondary-glass w-100 py-2.5" disabled>
+                                        <i class="bi bi-award me-1"></i> Locked
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="glass-card text-center p-5">
+            <i class="bi bi-book fs-1 text-secondary mb-3 d-block"></i>
+            <h4 class="text-light">You aren't enrolled in any courses yet</h4>
+            <a href="{{ url_for('courses') }}" class="btn btn-primary-gradient mt-3">Browse Courses</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const completed = {{ completed_count }};
+        const inProgress = {{ in_progress_count }};
+        const notStarted = {{ not_started_count }};
+        initDashboardChart(completed, inProgress, notStarted);
+    });
+</script>
+{% endblock %}
