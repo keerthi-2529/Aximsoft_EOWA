@@ -28,31 +28,7 @@ SQLite
 Libraries
 Werkzeug
 Jinja2
-Project Structure
-SkillForge/
-│
-├── static/
-│   ├── css/
-│   │   └── styles.css
-│   ├── images/
-│   └── main.js (or embedded in base.html)
-│
-├── templates/
-│   ├── base.html
-│   ├── home.html
-│   ├── courses.html
-│   ├── dashboard.html
-│   ├── profile.html
-│   ├── login.html
-│   ├── certificate.html
-│   └── ...
-│
-├── app.py
-├── database.py
-├── init_db.py
-├── schema.sql
-├── skillforge.db
-└── README.md
+
 Installation
 Clone the Repository
 git clone https://github.com/yourusername/SkillForge.git
@@ -154,10 +130,3 @@ Jinja2 Template Engine
 Responsive Web Design
 Session Management
 MVC Architecture
-Author
-Keerthi
-
-Python Developer | Flask Developer | Web Developer
-
-License
-This project is developed for educational purposes.
