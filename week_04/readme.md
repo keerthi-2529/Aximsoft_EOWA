@@ -152,10 +152,3 @@ Responsive UI development
 MVC architecture
 Form handling
 Database schema management
-👨‍💻 Author
-Keerthi
-
-Python Developer | Flask Developer | Aspiring Data Scientist
-
-📜 License
-This project is developed for educational purposes and can be freely modified and used for learning.
