@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Project Reports</h2>
+        <p class="text-muted">Download the generated PDF reports.</p>
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Prediction Report -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+
+                    <div class="display-4 mb-3">🏠</div>
+
+                    <h4>Prediction Report</h4>
+
+                    <p class="text-muted">
+                        Download the latest house price prediction report with model details.
+                    </p>
+
+                    <a href="{{ url_for('prediction_report') }}"
+                       class="btn btn-success w-100">
+                        Download PDF
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Comparison Report -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+
+                    <div class="display-4 mb-3">📊</div>
+
+                    <h4>Model Comparison Report</h4>
+
+                    <p class="text-muted">
+                        Compare all regression models based on MAE, RMSE, MSE and R².
+                    </p>
+
+                    <a href="{{ url_for('comparison_report') }}"
+                       class="btn btn-primary w-100">
+                        Download PDF
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- EDA Report -->
+        <div class="col-lg-4 col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+
+                    <div class="display-4 mb-3">📈</div>
+
+                    <h4>EDA Report</h4>
+
+                    <p class="text-muted">
+                        Download the Exploratory Data Analysis report with dataset summary.
+                    </p>
+
+                    <a href="{{ url_for('eda_report') }}"
+                       class="btn btn-warning w-100">
+                        Download PDF
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

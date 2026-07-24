@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Heading -->
+    <div class="mb-4">
+        <h2 class="fw-bold">House Price Prediction</h2>
+        <p class="text-muted">
+            Enter the property details to predict the house price using the trained Machine Learning model.
+        </p>
+    </div>
+
+    <div class="card shadow border-0">
+
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Property Details</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form action="/predict" method="POST">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Total Area</label>
+                        <input type="number" step="any" class="form-control"
+                               name="TotalArea" placeholder="Enter Total Area" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Overall Quality</label>
+                        <input type="number" class="form-control"
+                               name="OverallQual" placeholder="1 - 10" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Total Living SF</label>
+                        <input type="number" step="any" class="form-control"
+                               name="TotalLivingSF" placeholder="Living Area" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Ground Living Area</label>
+                        <input type="number" step="any" class="form-control"
+                               name="GrLivArea" placeholder="Ground Living Area" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Garage Cars</label>
+                        <input type="number" class="form-control"
+                               name="GarageCars" placeholder="Garage Capacity" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Total Bathrooms</label>
+                        <input type="number" step="any" class="form-control"
+                               name="TotalBathrooms" placeholder="Bathrooms" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Garage Area</label>
+                        <input type="number" step="any" class="form-control"
+                               name="GarageArea" placeholder="Garage Area" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Total Basement SF</label>
+                        <input type="number" step="any" class="form-control"
+                               name="TotalBsmtSF" placeholder="Basement Area" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Year Built</label>
+                        <input type="number" class="form-control"
+                               name="YearBuilt" placeholder="Construction Year" required>
+                    </div>
+
+                </div>
+
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-success btn-lg px-5">
+                        Predict House Price
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    {% if prediction %}
+
+    <div class="card shadow border-success mt-5">
+
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">Prediction Result</h4>
+        </div>
+
+        <div class="card-body text-center">
+
+            <h5 class="text-muted">
+                Estimated House Price
+            </h5>
+
+            <h1 class="display-4 text-success fw-bold">
+                {{ prediction }}
+            </h1>
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

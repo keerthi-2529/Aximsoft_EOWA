@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="mb-4">
+        <h2 class="fw-bold">Model Comparison</h2>
+        <p class="text-muted">
+            Performance Comparison Before and After Hyperparameter Optimization
+        </p>
+    </div>
+
+    <!-- Best Model -->
+
+    <div class="card shadow border-0 mb-4">
+
+        <div class="card-body">
+
+            <div class="row text-center">
+
+                <div class="col-md-3">
+                    <h6>Best Model</h6>
+                    <h4 class="text-success">{{ best.Model }}</h4>
+                </div>
+
+                <div class="col-md-2">
+                    <h6>MAE</h6>
+                    <h5>{{ "%.4f"|format(best.MAE) }}</h5>
+                </div>
+
+                <div class="col-md-2">
+                    <h6>MSE</h6>
+                    <h5>{{ "%.4f"|format(best.MSE) }}</h5>
+                </div>
+
+                <div class="col-md-2">
+                    <h6>RMSE</h6>
+                    <h5>{{ "%.4f"|format(best.RMSE) }}</h5>
+                </div>
+
+                <div class="col-md-3">
+                    <h6>R² Score</h6>
+                    <h4 class="text-primary">{{ "%.4f"|format(best.R2) }}</h4>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- BEFORE OPTIMIZATION -->
+
+    <div class="card shadow border-0 mb-5">
+
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">
+                Before Optimization (Baseline Models)
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover text-center align-middle">
+
+                    <thead class="table-dark">
+
+                        <tr>
+                            {% for col in baseline[0].keys() %}
+                            <th>{{ col }}</th>
+                            {% endfor %}
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for row in baseline %}
+
+                        <tr>
+
+                            {% for value in row.values() %}
+                            <td>{{ value }}</td>
+                            {% endfor %}
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- AFTER OPTIMIZATION -->
+
+    <div class="card shadow border-0">
+
+        <div class="card-header bg-success text-white">
+            <h4 class="mb-0">
+                After Optimization (Tuned Models)
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-bordered table-hover text-center align-middle">
+
+                    <thead class="table-success">
+
+                        <tr>
+
+                            {% for col in optimized[0].keys() %}
+                            <th>{{ col }}</th>
+                            {% endfor %}
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for row in optimized %}
+
+                        <tr>
+
+                            {% for value in row.values() %}
+                            <td>{{ value }}</td>
+                            {% endfor %}
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

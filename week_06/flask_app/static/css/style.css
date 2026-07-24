@@ -1,0 +1,322 @@
+/* ==========================
+   Global Style
+========================== */
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background: #eddfdf;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #333;
+}
+
+/* ==========================
+   Sidebar / Navigation
+========================== */
+
+.sidebar{
+    background: #9a3412;
+    min-height: 100vh;
+    width: 260px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 25px 15px;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.15);
+}
+
+.sidebar .brand{
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.sidebar a{
+    display: block;
+    color: #fde68a;
+    padding: 12px 18px;
+    margin: 8px 0;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.sidebar a:hover{
+    background: #f97316;
+    color: white;
+    transform: translateX(5px);
+}
+
+.content{
+    margin-left: 260px;
+    padding: 30px;
+}
+/* ==========================
+   Cards
+========================== */
+
+/* Normal Cards */
+.card{
+    border: none;
+    border-radius: 18px;
+    background: #fffdfb;
+    box-shadow: 0 6px 20px rgba(0,0,0,.08);
+    transition: all .3s ease;
+}
+
+.card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(234,88,12,.20);
+}
+
+/* Card Header */
+.card-header{
+    background: linear-gradient(135deg, #d83333, #f61212);
+    color: #fff;
+    border: none;
+    border-radius: 18px 18px 0 0 !important;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+/* Dashboard Cards */
+.dashboard-card{
+    color: #f4efef;
+    padding: 25px;
+    text-align: center;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.dashboard-card h5{
+    color: rgba(255,255,255,.9);
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.dashboard-card h2{
+    color: #fff;
+    font-size: 34px;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* ==========================
+   Dashboard Card Colors
+========================== */
+
+/* Total Models */
+.card-orange{
+    background: linear-gradient(135deg,#ff9f43,#ff6b35);
+}
+
+/* Best Model */
+.card-red{
+    background: linear-gradient(135deg,#ff6b6b,#ee5253);
+}
+
+/* Accuracy */
+.card-blue{
+    background: linear-gradient(135deg,#54a0ff,#2e86de);
+}
+
+/* Dataset */
+.card-green{
+    background: linear-gradient(135deg,#2ecc71,#27ae60);
+}
+
+/* Features */
+.card-purple{
+    background: linear-gradient(135deg,#a55eea,#8854d0);
+}
+
+/* Prediction */
+.card-teal{
+    background: linear-gradient(135deg,#20c997,#0f766e);
+}
+
+/* Hover Effect */
+.card-orange:hover,
+.card-red:hover,
+.card-blue:hover,
+.card-green:hover,
+.card-purple:hover,
+.card-teal:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,.25);
+}
+/* ==========================
+   Forms
+========================== */
+
+.form-control{
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #fdba74;
+}
+
+.form-control:focus{
+    border-color: #ea580c;
+    box-shadow: 0 0 8px rgba(234,88,12,.3);
+}
+
+/* ==========================
+   Buttons
+========================== */
+
+.btn{
+    border-radius: 12px;
+    padding: 12px 30px;
+    font-weight: 600;
+    transition: .3s;
+}
+
+.btn-primary{
+    background: #ea580c;
+    border: none;
+}
+
+.btn-primary:hover{
+    background: #c2410c;
+}
+
+.btn-success{
+    background: #16a34a;
+    border: none;
+}
+
+.btn-success:hover{
+    background: #15803d;
+}
+
+/* ==========================
+   Tables
+========================== */
+
+.table{
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.table thead{
+    background: #9a3412;
+    color: white;
+}
+
+.table th{
+    text-align: center;
+    padding: 15px;
+}
+
+.table td{
+    text-align: center;
+    padding: 12px;
+}
+
+.table tbody tr:nth-child(even){
+    background: #fff1e6;
+}
+
+.table tbody tr:hover{
+    background: #fed7aa;
+}
+
+/* ==========================
+   Plot Images
+========================== */
+
+.plot-card img{
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    object-fit: contain;
+    border-radius: 15px;
+}
+
+img{
+    border-radius: 15px;
+}
+
+/* ==========================
+   Prediction Result
+========================== */
+
+.prediction-result{
+    background: #ffedd5;
+    border-left: 6px solid #ea580c;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+.prediction-result h1{
+    color: #c2410c;
+    font-weight: 700;
+}
+
+/* ==========================
+   Chart
+========================== */
+
+canvas{
+    max-height: 400px;
+}
+
+/* ==========================
+   Scrollbar
+========================== */
+
+::-webkit-scrollbar{
+    width: 10px;
+}
+
+::-webkit-scrollbar-track{
+    background: #fff7ed;
+}
+
+::-webkit-scrollbar-thumb{
+    background: #ea580c;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background: #c2410c;
+}
+
+/* ==========================
+   Mobile Responsive
+========================== */
+
+@media (max-width:768px){
+
+.sidebar{
+    position: relative;
+    width: 100%;
+    min-height: auto;
+}
+
+.content{
+    margin-left: 0;
+    padding: 15px;
+}
+
+.card{
+    margin-bottom: 20px;
+}
+
+.dashboard-card h2{
+    font-size: 28px;
+}
+
+.btn{
+    width: 100%;
+}
+
+}

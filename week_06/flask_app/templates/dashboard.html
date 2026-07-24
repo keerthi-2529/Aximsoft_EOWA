@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Title -->
+    <div class="mb-4">
+        <h2 class="fw-bold">Advanced Regression Dashboard</h2>
+        <p class="text-muted">
+            House Price Prediction using Multiple Machine Learning Algorithms
+        </p>
+    </div>
+
+    <!-- Top Cards -->
+    <div class="row g-4">
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card shadow border-0 h-100">
+                <div class="card-body text-center">
+                    <h6 class="text-muted">Dataset</h6>
+                    <h5>{{ info.dataset }}</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card shadow border-0 h-100">
+                <div class="card-body text-center">
+                    <h6 class="text-muted">Records</h6>
+                    <h2>{{ info.records }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card shadow border-0 h-100">
+                <div class="card-body text-center">
+                    <h6 class="text-muted">Models Compared</h6>
+                    <h2>{{ info.models }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="card shadow border-0 h-100 bg-success text-white">
+                <div class="card-body text-center">
+                    <h6>Best Model</h6>
+                    <h4>{{ best.model }}</h4>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Performance Cards -->
+    <div class="row g-4 mt-2">
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <h6>MAE</h6>
+                    <h3>{{ "%.4f"|format(best.mae) }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <h6>MSE</h6>
+                    <h3>{{ "%.4f"|format(best.mse) }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <h6>RMSE</h6>
+                    <h3>{{ "%.4f"|format(best.rmse) }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow-sm border-0 text-center">
+                <div class="card-body">
+                    <h6>R² Score</h6>
+                    <h3 class="text-success">{{ "%.4f"|format(best.r2) }}</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- EDA Section -->
+    <div class="mt-5">
+
+        <h3 class="mb-4">Exploratory Data Analysis</h3>
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header">
+                        SalePrice Distribution
+                    </div>
+                    <div class="card-body">
+                        <img src="{{ url_for('static',filename='plots/distribution.png') }}"
+                             class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header">
+                        Correlation Heatmap
+                    </div>
+                    <div class="card-body">
+                        <img src="{{ url_for('static',filename='plots/heatmap.png') }}"
+                             class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header">
+                        Missing Values
+                    </div>
+                    <div class="card-body">
+                        <img src="{{ url_for('static',filename='plots/missing_values.png') }}"
+                             class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header">
+                        Feature Importance
+                    </div>
+                    <div class="card-body">
+                        <img src="{{ url_for('static',filename='plots/feature_importance.png') }}"
+                             class="img-fluid">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
