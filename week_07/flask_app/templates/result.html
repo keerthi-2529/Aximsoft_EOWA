@@ -1,0 +1,355 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Diagnosis Result
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="container">
+
+
+<h2 class="text-center mb-4">
+
+🧠 AI Diagnosis Result
+
+</h2>
+
+
+
+
+<!-- Prediction Summary -->
+
+<div class="row g-4">
+
+
+<div class="col-md-6">
+
+
+<div class="card shadow">
+
+
+<div class="card-header bg-success text-white">
+
+<h4>
+
+Prediction
+
+</h4>
+
+</div>
+
+
+<div class="card-body text-center">
+
+
+<h2 class="text-primary">
+
+{{ disease }}
+
+</h2>
+
+
+<h4>
+
+Confidence
+
+</h4>
+
+
+<div class="progress mb-3">
+
+
+<div class="progress-bar bg-success"
+
+style="width: {{ confidence }}%">
+
+
+{{ confidence }}%
+
+
+</div>
+
+
+</div>
+
+
+<p class="text-muted">
+
+The model predicts the uploaded image as:
+
+<b>{{ disease }}</b>
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- Uploaded Image -->
+
+<div class="col-md-6">
+
+
+<div class="card shadow">
+
+
+<div class="card-header bg-primary text-white">
+
+<h4>
+
+Uploaded Image
+
+</h4>
+
+</div>
+
+
+<div class="card-body text-center">
+
+
+<img src="{{ url_for('static',
+filename=image.replace('static/','')) }}"
+
+class="img-fluid rounded"
+
+style="max-height:350px;">
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<!-- Grad CAM -->
+
+<div class="card shadow mt-5">
+
+
+<div class="card-header bg-danger text-white">
+
+
+<h4>
+
+🔥 Explainable AI - Grad-CAM
+
+</h4>
+
+
+</div>
+
+
+<div class="card-body text-center">
+
+
+<p>
+
+Highlighted regions show which parts of the image
+influenced the deep learning model prediction.
+
+</p>
+
+
+
+<img src="{{ url_for('static',
+filename=heatmap.replace('static/','')) }}"
+
+class="img-fluid rounded"
+
+style="max-height:400px;">
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Probability Table -->
+
+
+<div class="card shadow mt-5">
+
+
+<div class="card-header bg-info text-white">
+
+
+<h4>
+
+Class Probability
+
+</h4>
+
+
+</div>
+
+
+
+<div class="card-body">
+
+
+<table class="table table-striped">
+
+
+<thead>
+
+
+<tr>
+
+<th>
+
+Disease
+
+</th>
+
+
+<th>
+
+Probability
+
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody>
+
+
+{% for item in probabilities %}
+
+
+<tr>
+
+
+<td>
+
+{{ item["class"] }}
+
+</td>
+
+
+<td>
+
+
+<div class="progress">
+
+
+<div class="progress-bar"
+
+style="width:{{ item["probability"] }}%">
+
+
+{{ item["probability"] }}%
+
+
+</div>
+
+
+</div>
+
+
+</td>
+
+
+</tr>
+
+
+{% endfor %}
+
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Report Download -->
+
+
+<div class="text-center mt-5">
+
+
+<a href="{{ url_for('static',
+filename=report.replace('static/','')) }}"
+
+class="btn btn-warning btn-lg"
+
+download>
+
+
+<i class="bi bi-file-earmark-pdf"></i>
+
+Download Diagnosis Report
+
+
+</a>
+
+
+
+<a href="{{ url_for('diagnosis') }}"
+
+class="btn btn-secondary btn-lg ms-3">
+
+
+New Prediction
+
+
+</a>
+
+
+</div>
+
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,316 @@
+/* =========================
+   Global Style
+========================= */
+
+body {
+
+    font-family: 'Segoe UI', sans-serif;
+
+    background-color: #f8f9fa;
+
+}
+
+
+
+/* =========================
+   Navbar
+========================= */
+
+
+.navbar-brand {
+
+    font-size: 22px;
+
+    letter-spacing: 0.5px;
+
+}
+
+
+
+/* =========================
+   Cards
+========================= */
+
+
+.card {
+
+    border: none;
+
+    border-radius: 15px;
+
+    transition: all 0.3s ease;
+
+}
+
+
+
+.card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+}
+
+
+
+.card-header {
+
+    border-radius: 15px 15px 0 0 !important;
+
+    font-weight: bold;
+
+}
+
+
+
+
+
+/* Dashboard Cards */
+
+.dashboard-card {
+
+    min-height: 180px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+
+
+.dashboard-card h3 {
+
+    font-size: 35px;
+
+    font-weight: bold;
+
+}
+
+
+
+
+/* =========================
+   Buttons
+========================= */
+
+
+.btn {
+
+    border-radius: 30px;
+
+    padding: 10px 25px;
+
+    font-weight: 600;
+
+}
+
+
+.btn-primary {
+
+    background: linear-gradient(
+        45deg,
+        #0062E6,
+        #33AEFF
+    );
+
+    border:none;
+
+}
+
+
+
+.btn-success {
+
+    background: linear-gradient(
+        45deg,
+        #11998e,
+        #38ef7d
+    );
+
+    border:none;
+
+}
+
+
+
+
+/* =========================
+   Image Styling
+========================= */
+
+
+img {
+
+    border-radius: 15px;
+
+}
+
+
+
+.img-fluid {
+
+    object-fit: contain;
+
+}
+
+
+
+
+
+/* =========================
+   Progress Bar
+========================= */
+
+
+.progress {
+
+    height: 25px;
+
+    border-radius:20px;
+
+}
+
+
+
+.progress-bar {
+
+    font-weight:bold;
+
+}
+
+
+
+
+
+/* =========================
+   Disease Class Cards
+========================= */
+
+
+.alert {
+
+    border-radius:15px;
+
+    font-weight:600;
+
+}
+
+
+
+
+
+/* =========================
+   Tables
+========================= */
+
+
+.table {
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+}
+
+
+
+.table th {
+
+    text-align:center;
+
+}
+
+
+
+.table td {
+
+    vertical-align:middle;
+
+}
+
+
+
+
+/* =========================
+   Footer
+========================= */
+
+
+footer {
+
+    margin-top:50px;
+
+}
+
+
+
+footer h5 {
+
+    font-weight:bold;
+
+}
+
+
+
+/* =========================
+   Upload Box
+========================= */
+
+
+input[type="file"] {
+
+    padding:12px;
+
+    border-radius:10px;
+
+}
+
+
+
+
+/* =========================
+   Hero Section
+========================= */
+
+
+.bg-light {
+
+    background:
+    linear-gradient(
+        135deg,
+        #ffffff,
+        #e3f2fd
+    ) !important;
+
+}
+
+
+
+/* =========================
+   Mobile Responsive
+========================= */
+
+
+@media(max-width:768px){
+
+
+    h1 {
+
+        font-size:28px;
+
+    }
+
+
+    .card {
+
+        margin-bottom:20px;
+
+    }
+
+
+}

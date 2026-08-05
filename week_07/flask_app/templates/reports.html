@@ -1,0 +1,332 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Reports
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+<h2 class="text-center mb-5">
+
+📄 Reports Center
+
+</h2>
+
+
+
+
+<div class="row g-4">
+
+
+
+<!-- Diagnosis Report -->
+
+<div class="col-md-6">
+
+
+<div class="card shadow h-100">
+
+
+<div class="card-header bg-success text-white">
+
+<h4>
+
+🩺 Diagnosis Report
+
+</h4>
+
+</div>
+
+
+<div class="card-body">
+
+
+<p>
+
+Download the detailed prediction report generated after
+skin disease diagnosis.
+
+</p>
+
+
+<ul>
+
+<li>Predicted disease</li>
+
+<li>Confidence score</li>
+
+<li>Class probabilities</li>
+
+<li>Model information</li>
+
+</ul>
+
+
+<a href="#"
+class="btn btn-success">
+
+
+<i class="bi bi-download"></i>
+
+Download Diagnosis Report
+
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Model Report -->
+
+<div class="col-md-6">
+
+
+<div class="card shadow h-100">
+
+
+<div class="card-header bg-primary text-white">
+
+<h4>
+
+🤖 Model Comparison Report
+
+</h4>
+
+
+</div>
+
+
+
+<div class="card-body">
+
+
+<p>
+
+Complete evaluation report of all deep learning models.
+
+</p>
+
+
+<ul>
+
+<li>Basic CNN</li>
+
+<li>MobileNetV2</li>
+
+<li>EfficientNetB0</li>
+
+<li>ResNet50</li>
+
+<li>DenseNet121</li>
+
+</ul>
+
+
+
+<a href="#"
+class="btn btn-primary">
+
+
+<i class="bi bi-file-earmark-text"></i>
+
+Download Model Report
+
+
+</a>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Project Reports -->
+
+
+<div class="card shadow mt-5">
+
+
+<div class="card-header bg-dark text-white">
+
+
+<h4>
+
+📚 Project Documentation
+
+</h4>
+
+
+</div>
+
+
+
+<div class="card-body">
+
+
+<div class="row text-center">
+
+
+
+<div class="col-md-3">
+
+
+<h1>
+
+📊
+
+</h1>
+
+
+<p>
+
+Data Analysis Report
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-3">
+
+
+<h1>
+
+⚙️
+
+</h1>
+
+
+<p>
+
+Preprocessing Report
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-3">
+
+
+<h1>
+
+🧠
+
+</h1>
+
+
+<p>
+
+Training Report
+
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-3">
+
+
+<h1>
+
+🔥
+
+</h1>
+
+
+<p>
+
+Explainable AI Report
+
+</p>
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- Information -->
+
+
+<div class="alert alert-info mt-5">
+
+
+<h5>
+
+Report Information
+
+</h5>
+
+
+<p>
+
+All reports are generated automatically by the
+Deep Learning Skin Disease Classification Platform.
+
+</p>
+
+
+</div>
+
+
+
+{% endblock %}

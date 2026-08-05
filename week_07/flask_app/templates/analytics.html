@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-4">
+
+<h2 class="text-center fw-bold mb-4">
+📊 Model Analytics Dashboard
+</h2>
+
+<div class="row g-3 mb-4">
+
+<div class="col-md-3">
+<div class="card shadow text-center">
+<div class="card-body">
+<h6>Total Models</h6>
+<h2>{{models|length}}</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow text-center">
+<div class="card-body">
+<h6>Best Accuracy</h6>
+<h2>{{best_model.Accuracy}}%</h2>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow text-center">
+<div class="card-body">
+<h6>Best Model</h6>
+<h4>{{best_model.Model}}</h4>
+</div>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="card shadow text-center">
+<div class="card-body">
+<h6>Classes</h6>
+<h2>7</h2>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="card shadow mb-4">
+
+<div class="card-header bg-primary text-white">
+
+<h4 class="mb-0">
+
+Model Comparison
+
+</h4>
+
+</div>
+
+<div class="card-body table-responsive">
+
+<table class="table table-bordered table-striped table-hover text-center">
+
+<thead class="table-dark">
+
+<tr>
+
+<th>Model</th>
+
+<th>Accuracy</th>
+
+<th>Precision</th>
+
+<th>Recall</th>
+
+<th>F1 Score</th>
+
+<th>ROC-AUC</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for row in models %}
+
+<tr>
+
+<td>{{row.Model}}</td>
+
+<td>{{row.Accuracy}}%</td>
+
+<td>{{row.Precision}}%</td>
+
+<td>{{row.Recall}}%</td>
+
+<td>{{row.F1}}%</td>
+
+<td>{{row.ROC_AUC}}%</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="col-md-6">
+
+<div class="card shadow mb-4">
+
+<div class="card-header bg-success text-white">
+
+Accuracy Comparison
+
+</div>
+
+<div class="card-body">
+
+<canvas id="accuracyChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="card shadow mb-4">
+
+<div class="card-header bg-info text-white">
+
+Precision / Recall / F1 Comparison
+
+</div>
+
+<div class="card-body">
+
+<canvas id="metricChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="card shadow mb-4">
+
+<div class="card-header bg-warning">
+
+ROC-AUC Comparison
+
+</div>
+
+<div class="card-body">
+
+<canvas id="aucChart"></canvas>
+
+</div>
+
+</div>
+
+<div class="card border-success shadow">
+
+<div class="card-header bg-success text-white">
+
+Best Performing Model
+
+</div>
+
+<div class="card-body">
+
+<h3>{{best_model.Model}}</h3>
+
+<hr>
+
+<p><strong>Accuracy :</strong> {{best_model.Accuracy}}%</p>
+
+<p><strong>Precision :</strong> {{best_model.Precision}}%</p>
+
+<p><strong>Recall :</strong> {{best_model.Recall}}%</p>
+
+<p><strong>F1 Score :</strong> {{best_model.F1}}%</p>
+
+<p><strong>ROC-AUC :</strong> {{best_model.ROC_AUC}}%</p>
+
+</div>
+
+</div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const labels = {{ labels|tojson }};
+
+const accuracy = {{ accuracy|tojson }};
+
+const precision = {{ precision|tojson }};
+
+const recall = {{ recall|tojson }};
+
+const f1 = {{ f1|tojson }};
+
+const auc = {{ auc|tojson }};
+
+new Chart(document.getElementById("accuracyChart"), {
+
+    type: "bar",
+
+    data: {
+
+        labels: labels,
+
+        datasets: [{
+            label: "Accuracy (%)",
+            data: accuracy
+        }]
+    }
+
+});
+
+new Chart(document.getElementById("metricChart"), {
+
+    type: "bar",
+
+    data: {
+
+        labels: labels,
+
+        datasets: [
+
+            {
+                label: "Precision",
+                data: precision
+            },
+
+            {
+                label: "Recall",
+                data: recall
+            },
+
+            {
+                label: "F1 Score",
+                data: f1
+            }
+
+        ]
+
+    }
+
+});
+
+new Chart(document.getElementById("aucChart"), {
+
+    type: "line",
+
+    data: {
+
+        labels: labels,
+
+        datasets: [{
+
+            label: "ROC-AUC",
+
+            data: auc,
+
+            tension: 0.3
+
+        }]
+
+    }
+
+});
+
+</script>
+{% endblock %}
