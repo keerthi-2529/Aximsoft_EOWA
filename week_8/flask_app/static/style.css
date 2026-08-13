@@ -1,0 +1,252 @@
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+body {
+
+    background: #f5f7fb;
+
+    color: #212529;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar-brand {
+
+    font-size: 20px;
+
+}
+
+
+.nav-link {
+
+    margin-left: 10px;
+
+}
+
+
+/* =====================================================
+   PAGE HEADER
+===================================================== */
+
+.page-header {
+
+    padding: 10px 5px;
+
+}
+
+
+.page-header h2 {
+
+    color: #1e3a8a;
+
+}
+
+
+/* =====================================================
+   DASHBOARD CARD
+===================================================== */
+
+.dashboard-card {
+
+    border: none;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 4px 15px rgba(
+            0,
+            0,
+            0,
+            0.07
+        );
+
+    transition: 0.2s;
+
+}
+
+
+.dashboard-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 6px 20px rgba(
+            0,
+            0,
+            0,
+            0.10
+        );
+
+}
+
+
+/* =====================================================
+   ICON BOX
+===================================================== */
+
+.icon-box {
+
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: white;
+
+    font-size: 24px;
+
+}
+
+
+/* =====================================================
+   SECTION TITLE
+===================================================== */
+
+.section-title {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 20px;
+
+}
+
+
+/* =====================================================
+   SUMMARY ITEM
+===================================================== */
+
+.summary-item {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 15px 0;
+
+    border-bottom: 1px solid #e5e7eb;
+
+}
+
+
+.summary-item:last-child {
+
+    border-bottom: none;
+
+}
+
+
+/* =====================================================
+   CHART
+===================================================== */
+
+.chart-box {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+.chart-box img {
+
+    width: 100%;
+
+    max-height: 500px;
+
+    object-fit: contain;
+
+}
+
+
+/* =====================================================
+   TABLE
+===================================================== */
+
+.table {
+
+    vertical-align: middle;
+
+}
+
+
+.table th {
+
+    font-weight: 600;
+
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.btn {
+
+    border-radius: 8px;
+
+    padding: 10px 18px;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+footer {
+
+    margin-top: 50px;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (
+    max-width: 768px
+) {
+
+    .navbar-nav {
+
+        margin-top: 10px;
+
+    }
+
+
+    .section-title {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 10px;
+
+    }
+
+}

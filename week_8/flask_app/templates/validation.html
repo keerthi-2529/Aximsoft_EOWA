@@ -1,0 +1,342 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Validation | Electricity Forecasting
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="page-header mb-4">
+
+    <h2 class="fw-bold">
+
+        <i class="bi bi-check-circle"></i>
+
+        Forecast Validation
+
+    </h2>
+
+    <p class="text-muted">
+
+        Evaluate forecasting performance on unseen validation periods.
+
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     VALIDATION SELECTION
+===================================================== -->
+
+<div class="card dashboard-card mb-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+
+            Select Validation Period
+
+        </h5>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('validation') }}"
+        >
+
+            <div class="row align-items-end">
+
+                <div class="col-md-6">
+
+                    <label class="form-label fw-semibold">
+
+                        Validation Period
+
+                    </label>
+
+
+                    <select
+                        name="validation_days"
+                        class="form-select"
+                    >
+
+                        <option
+                            value="30"
+                            {% if validation_days == 30 %}
+                            selected
+                            {% endif %}
+                        >
+
+                            30 Days
+
+                        </option>
+
+
+                        <option
+                            value="60"
+                            {% if validation_days == 60 %}
+                            selected
+                            {% endif %}
+                        >
+
+                            60 Days
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100">
+
+                        <i class="bi bi-search"></i>
+
+                        Validate Model
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     VALIDATION SUMMARY
+===================================================== -->
+
+<div class="row g-4 mb-4">
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Validation Period
+                </p>
+
+                <h3 class="fw-bold">
+
+                    {{ validation_days }}
+
+                    <small>Days</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Validation Records
+                </p>
+
+                <h3 class="fw-bold">
+
+                    {{ validation_rows }}
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Actual Average
+                </p>
+
+                <h3 class="fw-bold">
+
+                    {{ actual_mean }}
+
+                    <small>MW</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Actual Peak
+                </p>
+
+                <h3 class="fw-bold text-danger">
+
+                    {{ actual_peak }}
+
+                    <small>MW</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PERFORMANCE METRICS
+===================================================== -->
+
+<div class="card dashboard-card mb-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-4">
+
+            Model Validation Performance
+
+        </h5>
+
+
+        <div class="table-responsive">
+
+            <table class="table table-bordered">
+
+                <thead class="table-primary">
+
+                    <tr>
+
+                        <th>Metric</th>
+
+                        <th>RNN-48</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <tr>
+
+                        <th>MAE</th>
+
+                        <td>
+
+                            {{ mae }}
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>RMSE</th>
+
+                        <td>
+
+                            {{ rmse }}
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>MAPE</th>
+
+                        <td>
+
+                            {{ mape }}%
+
+                        </td>
+
+                    </tr>
+
+
+                    <tr>
+
+                        <th>R²</th>
+
+                        <td>
+
+                            {{ r2 }}
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     VALIDATION INFORMATION
+===================================================== -->
+
+<div class="alert alert-info">
+
+    <i class="bi bi-info-circle-fill"></i>
+
+    The validation period is kept separate from the final
+    test period to maintain chronological forecasting evaluation.
+
+</div>
+
+
+{% endblock %}

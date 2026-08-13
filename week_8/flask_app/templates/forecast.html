@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Forecast | Electricity Forecasting
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="page-header mb-4">
+
+    <h2 class="fw-bold">
+
+        <i class="bi bi-graph-up-arrow"></i>
+
+        Electricity Demand Forecast
+
+    </h2>
+
+    <p class="text-muted">
+
+        Generate future electricity demand using the trained RNN model.
+
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     FORECAST CONTROL
+===================================================== -->
+
+<div class="card dashboard-card mb-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+
+            Forecast Configuration
+
+        </h5>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('forecast') }}"
+        >
+
+            <div class="row align-items-end">
+
+                <div class="col-md-6">
+
+                    <label class="form-label fw-semibold">
+
+                        Forecast Horizon
+
+                    </label>
+
+
+                    <select
+                        name="horizon"
+                        class="form-select"
+                    >
+
+                        <option value="24">
+                            24 Hours
+                        </option>
+
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100">
+
+                        <i class="bi bi-play-fill"></i>
+
+                        Generate Forecast
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+{% if forecast %}
+
+
+<!-- =====================================================
+     FORECAST SUMMARY
+===================================================== -->
+
+<div class="row g-4 mb-4">
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Peak Demand
+                </p>
+
+                <h3 class="text-danger fw-bold">
+
+                    {{ peak_demand }}
+
+                    <small>MW</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Minimum Demand
+                </p>
+
+                <h3 class="text-success fw-bold">
+
+                    {{ minimum_demand }}
+
+                    <small>MW</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Average Demand
+                </p>
+
+                <h3 class="text-primary fw-bold">
+
+                    {{ average_demand }}
+
+                    <small>MW</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Peak Time
+                </p>
+
+                <h6 class="fw-bold">
+
+                    {{ peak_hour }}
+
+                </h6>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FORECAST CHART
+===================================================== -->
+
+<div class="card dashboard-card mb-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+
+            Forecast Demand
+
+        </h5>
+
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/forecast.png'
+            ) }}"
+            class="img-fluid"
+            alt="Forecast Chart"
+        >
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     FORECAST TABLE
+===================================================== -->
+
+<div class="card dashboard-card">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+
+            Forecast Values
+
+        </h5>
+
+
+        <div class="table-responsive">
+
+            <table class="table table-striped table-hover">
+
+                <thead class="table-primary">
+
+                    <tr>
+
+                        <th>#</th>
+
+                        <th>Date & Time</th>
+
+                        <th>Forecast Demand (MW)</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for row in forecast %}
+
+                    <tr>
+
+                        <td>
+                            {{ loop.index }}
+                        </td>
+
+                        <td>
+                            {{ row.Datetime }}
+                        </td>
+
+                        <td class="fw-bold">
+
+                            {{ "%.2f"|format(
+                                row.Forecast_MW
+                            ) }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% else %}
+
+
+<div class="alert alert-info">
+
+    <i class="bi bi-info-circle"></i>
+
+    Select a forecasting horizon and click
+    <strong>Generate Forecast</strong>.
+
+</div>
+
+
+{% endif %}
+
+
+{% endblock %}

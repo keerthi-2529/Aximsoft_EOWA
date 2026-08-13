@@ -1,0 +1,240 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+Analytics | Electricity Forecasting
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="page-header mb-4">
+
+    <h2 class="fw-bold">
+
+        <i class="bi bi-bar-chart-line"></i>
+
+        Forecast Analytics
+
+    </h2>
+
+    <p class="text-muted">
+
+        Historical consumption and forecasting analysis
+
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     ANALYTICS CARDS
+===================================================== -->
+
+<div class="row g-4 mb-4">
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Current Demand
+                </p>
+
+                <h3 class="fw-bold">
+
+                    {{ current_demand }}
+
+                    <small>MW</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Historical Average
+                </p>
+
+                <h3 class="fw-bold">
+
+                    {{ historical_mean }}
+
+                    <small>MW</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Forecast Average
+                </p>
+
+                <h3 class="fw-bold text-primary">
+
+                    {{ forecast_mean }}
+
+                    <small>MW</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="col-md-3">
+
+        <div class="card dashboard-card">
+
+            <div class="card-body">
+
+                <p class="text-muted">
+                    Forecast Peak
+                </p>
+
+                <h3 class="fw-bold text-danger">
+
+                    {{ forecast_peak }}
+
+                    <small>MW</small>
+
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     HISTORICAL TREND
+===================================================== -->
+
+<div class="card dashboard-card mb-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold">
+
+            Historical Consumption Trend
+
+        </h5>
+
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/historical.png'
+            ) }}"
+            class="img-fluid mt-3"
+            alt="Historical Trend"
+        >
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     ACTUAL VS FORECAST
+===================================================== -->
+
+<div class="card dashboard-card mb-4">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold">
+
+            Actual vs Forecast
+
+        </h5>
+
+
+        <img
+            src="{{ url_for(
+                'static',
+                filename='charts/actual_forecast.png'
+            ) }}"
+            class="img-fluid mt-3"
+            alt="Actual vs Forecast"
+        >
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     PEAK DEMAND ANALYSIS
+===================================================== -->
+
+<div class="card dashboard-card">
+
+    <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+
+            Peak Demand Analysis
+
+        </h5>
+
+
+        <div class="alert alert-danger">
+
+            <i class="bi bi-exclamation-triangle-fill"></i>
+
+            The predicted peak demand for the next
+            forecasting period is
+
+            <strong>
+
+                {{ forecast_peak }} MW
+
+            </strong>.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}
